@@ -13,8 +13,8 @@ public class Quiz {
     private Integer id;
     private String title;
 
-    @ManyToMany
-    private List<Question> questions;
+    @ElementCollection
+    private List<Integer> questionIds;
 
 
 }

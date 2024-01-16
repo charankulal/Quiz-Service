@@ -1,6 +1,7 @@
 package com.charan.quizservice.service;
 
 import com.charan.quizservice.dao.QuizDao;
+import com.charan.quizservice.feign.QuizInterface;
 import com.charan.quizservice.model.QuestionWrapper;
 import com.charan.quizservice.model.Quiz;
 import com.charan.quizservice.model.Response;
@@ -19,17 +20,16 @@ public class QuizService {
 
     @Autowired
     QuizDao quizDao;
-//    @Autowired
-//    QuestionDao questionDao;
+
+    @Autowired
+    QuizInterface quizInterface;
 
     public ResponseEntity<String> createQuiz(String category, Integer numQ, String title) {
-
-        // Call the generate url from question service - Use of RestTemplate Url=>http://localhost:8080/question/generate
-//        List<Integer> questions = ;
-//        Quiz quiz = new Quiz();
-//        quiz.setTitle(title);
-//        quiz.setQuestions(questions);
-//        quizDao.saveAndFlush(quiz);
+        List<Integer> questions=quizInterface.getQuestionsForQuiz(category,numQ).getBody();
+        Quiz quiz= new Quiz();
+        quiz.setTitle(title);
+        quiz.setQuestionIds(questions);
+        quizDao.save(quiz);
         return new ResponseEntity<>("success", HttpStatus.CREATED);
     }
 
