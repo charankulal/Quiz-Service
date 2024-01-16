@@ -1,8 +1,10 @@
 package com.charan.quizservice.controller;
 
-import com.charan.quiz.model.QuestionWrapper;
-import com.charan.quiz.model.Response;
-import com.charan.quiz.service.QuizService;
+
+import com.charan.quizservice.model.QuestionWrapper;
+import com.charan.quizservice.model.QuizDto;
+import com.charan.quizservice.model.Response;
+import com.charan.quizservice.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +19,9 @@ public class QuizController {
     QuizService quizService;
 
     @PostMapping("create")
-    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numQ, @RequestParam String title){
-        return quizService.createQuiz(category,numQ,title);
+    public ResponseEntity<String> createQuiz(@RequestBody QuizDto quizDto){
+        // DTO stands for Data Transfer Object
+        return quizService.createQuiz(quizDto.getCategoryName(),quizDto.getNumQuestions(),quizDto.getTitle());
 
     }
 
